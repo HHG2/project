@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration form</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<?php
+    require("connect.php");
+
+   $error ='';
+   if(isset($_POST['Register'])){
+      $firstname= $_POST['firstname'];
+      $lastname= $_POST['lastname'];
+      $email =$_POST['email'];
+      $phone =$_POST['phone'];
+      $password =$_POST['password'];
+      $password2 =$_POST['password'];
+   
+   if(empty($name)){
+    $error = "Name is Very required";
+   }else{
+       if(empty($name)){
+        $error = "Name must be  letters and numbers";
+       }
+      }
+   if (empty($email)){
+    $error = "Email is required";
+   }else{
+    if (empty($email)){
+        $email = "email must be a valid email address";
+    }
+   }
+if (empty($phone)){
+    $error ="phone number is required";
+}  
+   if (empty($password)){
+    $error = "password is required";
+   } 
+   else{
+     if (strlen($password)< 3){
+        $error ="password must be at least 6 characters";
+     }
+   }
+
+   if (empty($password2)){
+    $error = "confirm password is required";
+   }  else{
+     if ($password != $password){
+        $error ="password do not match";
+     }
+   }
+   // check if there is an error
+if (empty($error)) {
+   // connect to database
+   $conn = mysqli_connect("localhost", "almakey", "123", "almakey");
+   // check connection
+   if (!$conn) {
+   die("Connection failed:". mysqli_connect_error());
+   }
+   $sql = "INSERT INTO user (firstname, lastname, email,phone, password) VALUES ('$firstname','$lastname','$email','$phone','$password')";
+   $result = mysqli_query($conn,$sql);
+   if (!$result){
+      die("Error: " . mysqli_error($conn));
+   }
+   print("inserted 1 row");
+}
+}
+?>
+<?php if (!empty($error)){?><h1 class="error"><?php echo $error;?></h1><?php }?>
+<body>
+    <div class="container">
+        <h2>Registration form</h2>
+        <form>
+            <div class="input-name">
+                <i class="fa fa-user lock"></i>
+                <input type="text" name="firstname" placeholder="FirstName" class="name">
+                <span>
+                        <i class="fa fa-user lock"></i>
+                        <input type="text" name="lastname" placeholder="LastName" class="name">
+                </span>
+            </div>
+            <div class="input-name">
+                <i class="fa fa-envelope email"></i>
+                <input type="email" name="name" placeholder="Email" class="text-name">
+                </div>
+                <div class="input-name">
+                    <i class="fa fa-lock lock"></i>
+                    <input type="tel" name="phone" placeholder="phone" class="text-name">
+                    </div>
+                <div class="input-name">
+                    <i class="fa fa-lock lock"></i>
+                    <input type="password" name="name" placeholder="password" class="text-name">
+                    </div>
+                    <div class="input-name">
+                        <i class="fa fa-lock lock"></i>
+                        <input type="password" name="name" placeholder="confirm password" class="text-name">
+                        </div>
+                       
+                        <div class="input-name">
+                            <input type="radio" class="radio-button" name="r1">
+                            <label style="margin-right: 30px;">Male</label>
+                            <input type="radio" class="radio-button" name="r1">
+                            <label >Female</label>
+                            </div>
+                            <div class="input-name">
+                                <select class="country">
+                                    <option>select acountry</option>
+                                    <option>Sudan</option>
+                                    <option>Egypt</option>
+                                    <option>italy</option>
+                                    <option>india</option>
+                                    <option>japan</option>
+                                    <option>quter</option>
+                                    <option>USA</option>
+                                    <option>chane</option>
+                                    <option>KSA</option>
+                                    </select>
+                                    <div class="arrow"></div>
+                                    </div>
+                                    <div class="input-name">
+                                        <input type="checkbox" class="check-button">
+                                        <label>I accept the terms and conditions</label>
+                                    </div>
+                                    <div class="input-name">
+                                        <input type="submit" class="button" value="Register">
+                                    </div>
+
+
+                                    
+                                </div>
+        </form>
+    </div>
+</body>
+</html>
